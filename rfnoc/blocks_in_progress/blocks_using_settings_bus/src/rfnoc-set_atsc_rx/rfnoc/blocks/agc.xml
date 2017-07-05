@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--Default XML file-->
+<nocblock>
+  <name>agc</name>
+  <blockname>agc</blockname>
+  <ids>
+    <id revision="0">1476CDA44516BA98</id>
+  </ids>
+  <!-- Registers -->
+  <registers>
+    <setreg>
+      <name>RATE</name>
+      <address>128</address>
+    </setreg>
+    <setreg>
+      <name>REFERENCE</name>
+      <address>129</address>
+    </setreg>
+  </registers>
+  <registers>
+    <setreg>
+      <name>GAIN</name>
+      <address>130</address>
+    </setreg>
+    <setreg>
+      <name>MAX_GAIN</name>
+      <address>131</address>
+    </setreg>
+  </registers>
+  <!-- Args -->
+  <args>
+    <arg>
+      <name>rate</name>
+      <type>float</type>
+      <value>0.00001</value>
+      <action>
+        SR_WRITE("RATE", $rate)
+      </action>
+    </arg>
+    <arg>
+      <name>reference</name>
+      <type>float</type>
+      <value>4.0</value>
+      <action>
+        SR_WRITE("REFERENCE", $reference)
+      </action>
+    </arg>
+    <arg>
+      <name>gain</name>
+      <type>float</type>
+      <value>1.0</value>
+      <check>GE($gain, 0) AND LE($gain, 65536)</check>
+      <check_message>Invalid gain.</check_message>
+      <action>
+        SR_WRITE("GAIN", $gain)
+      </action>
+    </arg>
+    <arg>
+      <name>max_gain</name>
+      <type>float</type>
+      <value>65536</value>
+      <check>GE($max_gain, 0) AND LE($max_gain, 65536)</check>
+      <check_message>Invalid max gain.</check_message>
+      <action>
+        SR_WRITE("MAX_GAIN", $max_gain)
+      </action>
+    </arg>
+  </args>
+  <!--One input, one output. If this is used, better have all the info the C++ file.-->
+  <ports>
+    <sink>
+      <name>in</name>
+      <type>f32</type>
+    </sink>
+    <source>
+      <name>out</name>
+      <type>f32</type>
+    </source>
+  </ports>
+</nocblock>

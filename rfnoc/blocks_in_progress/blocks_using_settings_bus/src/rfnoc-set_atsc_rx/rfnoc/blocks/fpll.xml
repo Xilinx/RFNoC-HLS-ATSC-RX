@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--Default XML file-->
+<nocblock>
+  <name>fpll</name>
+  <blockname>fpll</blockname>
+  <ids>
+    <id revision="0">96928AED86E35E01</id>
+  </ids>
+  <!-- Registers -->
+  <registers>
+    <setreg>
+      <name>RATE</name>
+      <address>128</address>
+    </setreg>
+  </registers>
+  <!-- Args -->
+  <args>
+    <arg>
+      <name>rate</name>
+      <type>float</type>
+      <value>11838461.53846153846153846154</value>
+      <action>
+        SR_WRITE("RATE", $rate)
+      </action>
+    </arg>
+  </args>
+  <!--One input, one output. If this is used, better have all the info the C++ file.-->
+  <ports>
+    <sink>
+      <name>in</name>
+      <type>sc16</type>
+    </sink>
+    <source>
+      <name>out</name>
+      <type>f32</type>
+    </source>
+  </ports>
+</nocblock>

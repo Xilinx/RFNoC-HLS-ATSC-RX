@@ -1,0 +1,1 @@
+This implementation is significantly more optimized than the version in the tree and exceeds the target output rate of 11.838 MS/s. It passes HLS cosim testbench and SystemVerilog testbench. However, it results in a critical warning in timing during the image build process and does not function correctly when tested on hardware.

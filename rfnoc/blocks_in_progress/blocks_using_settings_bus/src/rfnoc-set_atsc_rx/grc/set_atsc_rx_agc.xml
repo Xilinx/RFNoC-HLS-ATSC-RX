@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<block>
+  <name>RFNoC: AGC</name>
+  <key>set_atsc_rx_agc</key>
+  <category>set_atsc_rx</category>
+  <import>import set_atsc_rx</import>
+  <make>set_atsc_rx.agc(
+          self.device3,
+          uhd.stream_args( # TX Stream Args
+                cpu_format="f32",
+                otw_format="f32",
+                args="",
+          ),
+          uhd.stream_args( # RX Stream Args
+                cpu_format="f32",
+                otw_format="f32",
+                args="",
+          ),
+          $block_index,
+          $device_index
+  )
+  self.$(id).set_arg("rate", $rate)
+  self.$(id).set_arg("reference", $reference)
+  self.$(id).set_arg("gain", $gain)
+  self.$(id).set_arg("max_gain", $max_gain)
+  </make>
+  <callback>set_arg("rate", $rate)</callback>
+  <callback>set_arg("reference", $reference)</callback>
+  <callback>set_arg("gain", $gain)</callback>
+  <callback>set_arg("max_gain", $max_gain)</callback>
+
+  <!--RFNoC basic block configuration -->
+  <param>
+    <name>Device Select</name>
+    <key>device_index</key>
+    <value>-1</value>
+    <type>int</type>
+    <hide>#if int($device_index()) &lt; 0 then 'part' else 'none'#</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+
+  <param>
+    <name>agc Select</name>
+    <key>block_index</key>
+    <value>-1</value>
+    <type>int</type>
+    <hide>#if int($block_index()) &lt; 0 then 'part' else 'none'#</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+
+  <param>
+    <name>FPGA Module Name</name>
+    <key>fpga_module_name</key>
+    <value>noc_block_agc</value>
+    <type>string</type>
+    <hide>all</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+  <param>
+    <name>Rate</name>
+    <key>rate</key>
+    <value>.00001</value>
+    <type>shortreal</type>
+  </param>
+  <param>
+    <name>Reference</name>
+    <key>reference</key>
+    <value>4</value>
+    <type>shortreal</type>
+  </param>
+  <param>
+    <name>Gain</name>
+    <key>gain</key>
+    <value>1</value>
+    <type>shortreal</type>
+  </param>
+  <param>
+    <name>Max Gain</name>
+    <key>max_gain</key>
+    <value>65536</value>
+    <type>shortreal</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>float</type>
+    <domain>rfnoc</domain>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>float</type>
+    <domain>rfnoc</domain>
+  </source>
+</block>

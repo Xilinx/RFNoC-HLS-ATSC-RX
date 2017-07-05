@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--Default XML file-->
+<nocblock>
+  <name>deint</name>
+  <blockname>deint</blockname>
+  <ids>
+    <id revision="0">25CF57B77FB5026E</id>
+  </ids>
+  <!--One input, one output. If this is used, better have all the info the C++ file.-->
+  <ports>
+    <sink>
+      <name>in</name>
+      <type>u8</type>
+      <vlen>256</vlen>
+    </sink>
+    <source>
+      <name>out</name>
+      <type>u8</type>
+      <vlen>256</vlen>
+    </source>
+  </ports>
+</nocblock>

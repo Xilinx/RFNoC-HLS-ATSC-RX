@@ -1,0 +1,205 @@
+%%%%%%%% GRCON 2016 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+\usepackage{times}
+\usepackage{graphicx} % more modern
+\usepackage{subfigure} 
+\usepackage{natbib}
+\usepackage{hyperref}
+
+% please use this for your draft submission
+\usepackage[nohyperref]{grcon2016} 
+% please use this for your camera ready paper
+%\usepackage[accepted]{grcon2016}
+
+\grcontitlerunning{Submission and Formatting Instructions for GRCON 2016}
+
+\begin{document} 
+
+\twocolumn[
+\grcontitle{Submission and Formatting Instructions for \\
+           GNU Radio Conference (GRCON 2016)}
+
+\grconauthor{Your Name}{email@yourdomain.edu}
+\grconaddress{Your Fantastic Institute,
+            14142 Imaginary Way, Mountain View, CA 94043 USA}
+\grconauthor{Your CoAuthor's Name}{email@coauthordomain.edu}
+\grconaddress{Their Fantastic Institute,
+            1571 Jay St., Arlington, VA 22203 USA}
+
+\grconkeywords{software radio, gnu radio, dsp, GRCON}
+]
+
+\vskip 0.3in
+
+\begin{abstract} 
+The purpose of this document is to provide both the basic paper template and submission guidelines. 
+Abstracts should succinct single paragraph, ideally between 4 to 6 sentences long.
+\end{abstract} 
+
+\section{Electronic Submission}
+\label{submission}
+
+Submission to GRCON 2016 will be entirely electronic.  
+Information about the submission process and \LaTeX\ templates
+are available on the conference web site at:
+
+\begin{center}
+\url{www.gnuradio.org/grcon-2016/papers/}
+\end{center}
+
+Questions and submission PDFs can be sent to 
+\texttt{grcon@gnuradio.org}.
+
+The guidelines below will be enforced for initial submissions and
+camera-ready copies.  Here is a brief summary:
+\begin{itemize}
+\item Submissions must be in PDF.
+\item The maximum paper length is \textbf{8 pages excluding references and acknowledgements, and 10 pages
+  including references and acknowledgements} (pages 9 and 10 must contain only references and acknowledgements).
+
+\item Your paper should be in \textbf{10 point Times font}.
+\item Place figure captions {\em under} the figure (and omit titles from inside graphics).  Place table captions {\em over} the table.
+\item Do not alter the style template; in particular, do not compress the paper format by reducing the vertical spaces.
+\item Keep your abstract brief and self-contained, one paragraph and roughly 4-6 sentences.  Title should have content words capitalized.
+\item Where possible, provide source code and example implementation via reference to your github account.
+\end{itemize}
+
+\subsection{Submitting Papers}
+
+{\bf Paper Deadline:} The deadline for paper submission to GRCON 2016
+is \textbf{July 1, 2016}. 
+
+{\bf Simultaneous Submission:} GRCON papers must not have been previously 
+published or under review elsewhere.  Pre-publication to Arxiv is encouraged.
+
+\medskip
+
+Authors using \textbf{Word} must convert their document to PDF.  
+Submissions will only be accepted in PDF format.
+
+\subsection{Feedback from Paper Submission}
+
+Acceptance notification will occur within one week of paper submission via email.
+Unless otherwise specified, conference abstracts must previously be accepted.
+
+\subsection{Submitting Final Camera-Ready Copy}
+
+The final versions of papers accepted for publication should follow the
+same format as initial submissions, but should use the accepted keyword 
+for the style package.
+
+Simply change:
+$\mathtt{\backslash usepackage\{grcon2016\}}$ to 
+
+$$\mathtt{\backslash usepackage[accepted]\{grcon2016\}}$$
+
+\noindent
+
+Camera-ready copies should have the title of the paper as running head
+on each page except the first one.  
+
+\section{Format of the Paper} 
+ 
+All submissions must follow the same format to ensure consistent reproduction
+and to let readers more easily find information.
+
+\subsection{Length and Dimensions}
+
+Papers must not exceed eight (8) pages of content, and ten (10) pages including 
+acknowledgements and references.
+
+The text of the paper should be formatted in two columns, with an
+overall width of 6.75 inches, height of 9.0 inches, and 0.25 inches
+between the columns. The left margin should be 0.75 inches and the top
+margin 1.0 inch (2.54~cm) and US Letter size.
+
+The paper body should be set in 10~point type with a vertical spacing
+of 11~points. Please use Times typeface throughout the text.
+
+\subsection{Title}
+
+The paper title should be set in 14~point bold type and centered
+between two horizontal rules that are 1~point thick, with 1.0~inch
+between the top rule and the top edge of the page. Capitalize the
+first letter of content words and put the rest of the title in lower
+case.
+
+\subsection{Author Information for Submission}
+\label{author info}
+
+Author information should include full names, institutional affiliation,
+and at least city address, as well as email or web addresses.
+
+\subsection{Abstract}
+
+The paper abstract should begin in the left column, 0.4~inches below
+the final address. The heading `Abstract' should be centered, bold,
+and in 11~point type. The abstract body should use 10~point type, with
+a vertical spacing of 11~points, and should be indented 0.25~inches
+more than normal on left-hand and right-hand margins. 
+\textbf{Keep your abstract brief and self-contained.}
+
+\subsection{Partitioning the Text} 
+
+You should organize your paper into sections and paragraphs to help
+readers place a structure on the material and understand its
+contributions.
+
+\subsubsection{Sections and Subsections}
+
+Section headings should be numbered, flush left, and set in 11~pt bold
+type with the content words capitalized. Leave 0.25~inches of space
+before the heading.
+
+Similarly, subsection headings should be numbered, flush left, and set
+in 10~pt bold type with the content words capitalized. Leave
+0.2~inches of space before the heading.
+
+Subsubsection headings should be numbered, flush left, and
+set in 10~pt small caps with the content words capitalized. Leave
+0.18~inches of space before the heading.
+
+Please use no more than three levels of headings.
+
+\subsubsection{Paragraphs and Footnotes}
+
+Within each section or subsection, you should further partition the
+paper into paragraphs. Do not indent the first line of a given
+paragraph, but insert a blank line between succeeding ones.
+
+\begin{figure}[ht]
+  \begin{center}
+    \centerline{\includegraphics[width=\columnwidth]{gr.png}}
+    \caption{GNU Radio Logo}
+    \label{grlogo}
+  \end{center}
+\end{figure} 
+
+\subsection{Figures}
+ 
+You may want to include figures in the paper to help readers visualize
+your approach and your results. Such artwork should be centered,
+legible, and clearly labeled and explained with captions similar to Figure~\ref{grlogo}.
+
+\subsection{Citations and References} 
+
+Please use APA reference format regardless of your formatter
+or word processor. If you rely on the \LaTeX\/ bibliographic 
+facility, use {\tt natbib.sty} and {\tt grcon2016.bst} 
+included in the style-file package to obtain this format.
+
+This template is based off the excellent template for ICML provided
+in the work by \cite{langley00}.
+
+\subsection{Software and Data}
+
+We strongly encourage the publication of software and data with the
+camera-ready version of the paper whenever appropriate.  This can be
+done by including a URL in the camera-ready copy.  
+
+\bibliography{example_paper}
+\bibliographystyle{grcon2016}
+
+\end{document} 

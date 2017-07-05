@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--Default XML file-->
+<nocblock>
+  <name>fltpll</name>
+  <blockname>fltpll</blockname>
+  <ids>
+    <id revision="0">4AAE4171B6CF48FF</id>
+  </ids>
+  <!--One input, one output. If this is used, better have all the info the C++ file.-->
+  <ports>
+    <sink>
+      <name>in</name>
+      <type>sc16</type>
+    </sink>
+    <source>
+      <name>out</name>
+      <type>f32</type>
+    </source>
+  </ports>
+</nocblock>

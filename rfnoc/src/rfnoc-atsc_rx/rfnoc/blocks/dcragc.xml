@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--Default XML file-->
+<nocblock>
+  <name>dcragc</name>
+  <blockname>dcragc</blockname>
+  <ids>
+    <id revision="0">F3CC7DD3C06AAF2E</id>
+  </ids>
+  <!--One input, one output. If this is used, better have all the info the C++ file.-->
+  <ports>
+    <sink>
+      <name>in</name>
+      <type>f32</type>
+    </sink>
+    <source>
+      <name>out</name>
+      <type>f32</type>
+    </source>
+  </ports>
+</nocblock>

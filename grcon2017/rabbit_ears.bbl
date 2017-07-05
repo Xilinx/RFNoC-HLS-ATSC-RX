@@ -1,0 +1,49 @@
+\begin{thebibliography}{6}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[ATSC(2011)]{atsc}
+ATSC.
+\newblock Doc. a/53 part 2:2011.
+\newblock In \emph{ATSC Digital Television Standard – Part 2: RF/Transmission
+  System Characteristics}. Advanced Television Systems Committee, Retrieved
+  from
+  \url{http://www.atsc.org/wp-content/uploads/2015/03/a\_53-Part-2-2011.pdf},
+  2011.
+
+\bibitem[Corgan(2014)]{corgan14}
+Corgan, J.~M.
+\newblock Johnathan Corgan on Twitter: "Real time, over-the-air, pure software
+  ATSC digital television reception with \#usrp and \#gnuradio.
+  \url{http://t.co/t46BPG28gB}". Retrieved from
+  \url{https://twitter.com/jmcorgan/status/491702698052296705}, 2014.
+
+\bibitem[Ettus~Research(2017)]{rfnockb}
+Ettus~Research, a National Instruments~Company.
+\newblock In \emph{Getting Started with RFNoc Development}, Retrieved from
+  \url{https://kb.ettus.com/Getting\_Started\_with\_RFNoC\_Development}, 2017.
+
+\bibitem[harris(2004)]{harris04}
+harris, f.
+\newblock In \emph{Multirate Signal Processing for Communication Systems},
+  chapter 7.5. Prentice Hall, Inc., Upper Saddle River, NJ, 2004.
+
+\bibitem[Xilinx(2015{\natexlab{a}})]{ug1037}
+Xilinx, Inc.
+\newblock Ug1037 (v3.0).
+\newblock In \emph{Vivado Design Suite: AXI Reference Guide}, Retrieved from
+  \url{https://www.xilinx.com/support/documentation/ip\_documentation/axi\_ref\_guide/latest/ug1037-vivado-axi-reference-guide.pdf},
+  2015{\natexlab{a}}.
+
+\bibitem[Xilinx(2015{\natexlab{b}})]{ug902}
+Xilinx, Inc.
+\newblock Ug902 (v2015.4).
+\newblock In \emph{Vivado Design Suite User Guide: High Level Synthesis},
+  Retrieved from
+  \url{https://www.xilinx.com/support/documentation/sw\_manuals/xilinx2015\_4/ug902-vivado-high-level-synthesis.pdf},
+  2015{\natexlab{b}}.
+
+\end{thebibliography}

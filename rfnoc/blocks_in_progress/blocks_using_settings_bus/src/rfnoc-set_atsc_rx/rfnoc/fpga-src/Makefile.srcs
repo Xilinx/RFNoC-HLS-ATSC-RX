@@ -1,0 +1,6 @@
+$(addprefix SOURCES_PATH, \
+noc_block_dcr.v \
+noc_block_rxfilt.v \
+noc_block_fpll.v \
+noc_block_agc.v \
+) \

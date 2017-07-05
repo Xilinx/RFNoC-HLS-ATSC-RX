@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--Default XML file-->
+<nocblock>
+  <name>rxfilt</name>
+  <blockname>rxfilt</blockname>
+  <ids>
+    <id revision="0">F2D3B68A29FA79B3</id>
+  </ids>
+  <!-- Registers -->
+  <registers>
+    <setreg>
+      <name>RATE</name>
+      <address>128</address>
+    </setreg>
+    <setreg>
+      <name>SPS</name>
+      <address>129</address>
+    </setreg>
+  </registers>
+  <!-- Args -->
+  <args>
+    <arg>
+      <name>rate</name>
+      <type>float</type>
+      <value>6250000</value>
+      <action>
+        SR_WRITE("RATE", $rate)
+      </action>
+    </arg>
+    <arg>
+      <name>sps</name>
+      <type>float</type>
+      <value>1.1</value>
+      <action>
+        SR_WRITE("SPS", $sps)
+      </action>
+    </arg>
+  </args>
+  <!--One input, one output. If this is used, better have all the info the C++ file.-->
+  <ports>
+    <sink>
+      <name>in</name>
+      <type>sc16</type>
+    </sink>
+    <source>
+      <name>out</name>
+      <type>sc16</type>
+    </source>
+  </ports>
+</nocblock>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--Default XML file-->
+<nocblock>
+  <name>rxfilt</name>
+  <blockname>rxfilt</blockname>
+  <ids>
+    <id revision="0">F2D3B68A29FA79B3</id>
+  </ids>
+  <!--One input, one output. If this is used, better have all the info the C++ file.-->
+  <ports>
+    <sink>
+      <name>in</name>
+      <type>sc16</type>
+    </sink>
+    <source>
+      <name>out</name>
+      <type>sc16</type>
+    </source>
+  </ports>
+</nocblock>

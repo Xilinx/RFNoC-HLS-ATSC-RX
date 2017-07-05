@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<block>
+  <name>RFNoC: ATSC RX Filter</name>
+  <key>set_atsc_rx_rxfilt</key>
+  <category>set_atsc_rx</category>
+  <import>import set_atsc_rx</import>
+  <make>set_atsc_rx.rxfilt(
+          self.device3,
+          uhd.stream_args( # TX Stream Args
+                cpu_format="fc32",
+                otw_format="sc16",
+                args="",
+          ),
+          uhd.stream_args( # RX Stream Args
+                cpu_format="fc32",
+                otw_format="sc16",
+                args="",
+          ),
+          $block_index,
+          $device_index
+  )
+  self.$(id).set_arg("rate", $rate)
+  self.$(id).set_arg("sps", $sps)
+  </make>
+  <callback>set_arg("rate", $rate)</callback>
+  <callback>set_arg("sps", $sps)</callback>
+
+  <!--RFNoC basic block configuration -->
+  <param>
+    <name>Device Select</name>
+    <key>device_index</key>
+    <value>-1</value>
+    <type>int</type>
+    <hide>#if int($device_index()) &lt; 0 then 'part' else 'none'#</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+
+  <param>
+    <name>rxfilt Select</name>
+    <key>block_index</key>
+    <value>-1</value>
+    <type>int</type>
+    <hide>#if int($block_index()) &lt; 0 then 'part' else 'none'#</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+
+  <param>
+    <name>FPGA Module Name</name>
+    <key>fpga_module_name</key>
+    <value>noc_block_agc</value>
+    <type>string</type>
+    <hide>all</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+  <param>
+    <name>Input Rate</name>
+    <key>rate</key>
+    <value>6250000</value>
+    <type>shortreal</type>
+  </param>
+  <param>
+    <name>Oversampling Ratio</name>
+    <key>sps</key>
+    <value>1.1</value>
+    <type>shortreal</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+    <domain>rfnoc</domain>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>complex</type>
+    <domain>rfnoc</domain>
+  </source>
+</block>

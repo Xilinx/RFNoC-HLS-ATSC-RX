@@ -1,0 +1,1 @@
+This implementation is significantly more optimized than the version in the tree and nearly meets target output rate of 11.838 MS/s being about 1/3 of it. It passes HLS cosim testbench and SystemVerilog testbench.

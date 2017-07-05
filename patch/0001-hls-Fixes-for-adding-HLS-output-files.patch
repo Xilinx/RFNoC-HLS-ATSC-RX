@@ -1,0 +1,63 @@
+From 0b72a146078e300b16216e89db060b3cc910b536 Mon Sep 17 00:00:00 2001
+From: Jonathon Pendlum <jonathon.pendlum@gmail.com>
+Date: Fri, 28 Apr 2017 15:57:16 -0500
+Subject: [PATCH] hls: Fixes for adding HLS output files
+
+---
+ usrp3/tools/make/viv_hls_ip_builder.mak     | 3 ++-
+ usrp3/tools/scripts/viv_generate_hls_ip.tcl | 2 +-
+ usrp3/tools/scripts/viv_utils.tcl           | 4 ++++
+ 3 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/usrp3/tools/make/viv_hls_ip_builder.mak b/usrp3/tools/make/viv_hls_ip_builder.mak
+index 2c122a3..fd9063d 100644
+--- a/usrp3/tools/make/viv_hls_ip_builder.mak
++++ b/usrp3/tools/make/viv_hls_ip_builder.mak
+@@ -54,7 +54,8 @@ HLS_IP_BUILD_TARGETS += build_$(1)
+ # Since HLS output files can change between software versions, this target finds them and
+ # adds them to the list of output source files
+ build_$(1) : $$(HLS_IP_$(1)_OUTS)
+-	$$(eval HLS_IP_OUTPUT_SRCS += $$(shell find $(5)/$(1)/solution/impl/verilog/ -name '*.v' -o -name '*.vhd' -o -name '*.xci'))
++	$$(eval HLS_IP_OUTPUT_SRCS += $$(shell find $(5)/$(1)/solution/impl/verilog/ -maxdepth 1 -name '*.v' -o -name '*dat'))
++	$$(eval HLS_IP_OUTPUT_SRCS += $$(shell find $(5)/$(1)/solution/impl/verilog/project.srcs/sources_1/ip -name '*.xci' 2>/dev/null))
+ 
+ # Build with HLS
+ $$(HLS_IP_$(1)_OUTS) : $$(HLS_IP_$(1)_LIB_SRCS)
+diff --git a/usrp3/tools/scripts/viv_generate_hls_ip.tcl b/usrp3/tools/scripts/viv_generate_hls_ip.tcl
+index 6126790..f4e7267 100644
+--- a/usrp3/tools/scripts/viv_generate_hls_ip.tcl
++++ b/usrp3/tools/scripts/viv_generate_hls_ip.tcl
+@@ -18,7 +18,7 @@ set_part $part_name
+ set_top $hls_ip_name
+ foreach src_file $hls_ip_srcs {
+     set src_ext [file extension $src_file ]
+-    if [expr [lsearch {.c .cpp} $src_ext] >= 0] {
++    if [expr [lsearch {.c .cpp .cc .h .hpp} $src_ext] >= 0] {
+         puts "BUILDER: Adding C/C++ : $src_file"
+         add_files $src_file
+     } elseif [expr [lsearch {.tcl} $src_ext] >= 0] {
+diff --git a/usrp3/tools/scripts/viv_utils.tcl b/usrp3/tools/scripts/viv_utils.tcl
+index de7e8d5..f366f0c 100644
+--- a/usrp3/tools/scripts/viv_utils.tcl
++++ b/usrp3/tools/scripts/viv_utils.tcl
+@@ -72,6 +72,7 @@ proc ::vivado_utils::initialize_project { {save_to_disk 0} } {
+         } elseif [expr [lsearch {.xci} $src_ext] >= 0] {
+             puts "BUILDER: Adding IP      : $src_file"
+             read_ip $src_file
++            set_property generate_synth_checkpoint true [get_files $src_file]
+         } elseif [expr [lsearch {.ngc .edif} $src_ext] >= 0] {
+             puts "BUILDER: Adding Netlist : $src_file"
+             read_edif $src_file
+@@ -81,6 +82,9 @@ proc ::vivado_utils::initialize_project { {save_to_disk 0} } {
+         } elseif [expr [lsearch {.bxml} $src_ext] >= 0] {
+             puts "BUILDER: Adding Block Design XML to list (added after IP regeneration): $src_file"
+             append bd_files "$src_file "
++        } elseif [expr [lsearch {.dat} $src_ext] >= 0] {
++            puts "BUILDER: Adding Data File : $src_file"
++            add_files $src_file
+         } else {
+             puts "BUILDER: \[WARNING\] File ignored!!!: $src_file"
+         }
+-- 
+2.7.4
+

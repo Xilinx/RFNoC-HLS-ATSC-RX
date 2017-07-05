@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<block>
+  <name>RFNoC: DC Blocker</name>
+  <key>atsc_rx_dcr</key>
+  <category>atsc_rx</category>
+  <import>import atsc_rx</import>
+  <make>atsc_rx.dcr(
+          self.device3,
+          uhd.stream_args( # TX Stream Args
+                cpu_format="f32",
+                otw_format="f32",
+                args="",
+          ),
+          uhd.stream_args( # RX Stream Args
+                cpu_format="f32",
+                otw_format="f32",
+                args="",
+          ),
+          $block_index,
+          $device_index
+  )</make>
+
+  <!--RFNoC basic block configuration -->
+  <param>
+    <name>Device Select</name>
+    <key>device_index</key>
+    <value>-1</value>
+    <type>int</type>
+    <hide>#if int($device_index()) &lt; 0 then 'part' else 'none'#</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+
+  <param>
+    <name>dcr Select</name>
+    <key>block_index</key>
+    <value>-1</value>
+    <type>int</type>
+    <hide>#if int($block_index()) &lt; 0 then 'part' else 'none'#</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+
+  <param>
+    <name>FPGA Module Name</name>
+    <key>fpga_module_name</key>
+    <value>noc_block_agc</value>
+    <type>string</type>
+    <hide>all</hide>
+    <tab>RFNoC Config</tab>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>float</type>
+    <domain>rfnoc</domain>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>float</type>
+    <domain>rfnoc</domain>
+  </source>
+</block>
