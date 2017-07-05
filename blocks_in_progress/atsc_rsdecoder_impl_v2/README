@@ -1,0 +1,1 @@
+C Synthesis, Cosimulation, and RTL Export > Evaluate Verilog report show this block meets utilization and timing requirements. However, for unknown reasons it does not function correctly when tested on hardware. This version would be ~10x faster in throughput than the version checked into the main rfnoc tree because its max initiation interval is ~10k (the one in tree is ~96k).

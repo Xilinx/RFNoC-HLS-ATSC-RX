@@ -1,0 +1,1 @@
+cp ~/RFNoC-HLS-ATSC-RX/hls_patch/0001-hls-Fixes-for-adding-HLS-output-files.patch ~/rfnoc/src/uhd-fpga/ && cd ~/rfnoc/src/uhd-fpga/ && patch -p1 < 0001-hls-Fixes-for-adding-HLS-output-files.patch
