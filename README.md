@@ -25,7 +25,7 @@ All blocks above have these features:
 - UHD, GNU Radio, & FPGA Integration
 
 ### Directories
-Here are descriptions of the top-level directories.
+Here are descriptions of the top-level directories:
 
 | Folder | Contents |
 | --- | --- |
