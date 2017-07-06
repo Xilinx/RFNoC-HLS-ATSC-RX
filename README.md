@@ -39,7 +39,7 @@ Noteworthy subdirectories:
 | --- | --- |
 |[hls]| C++ source and testbench files for Vivado HLS.
 |[testbenches]| SystemVerilog HDL testbench directories.
-|[examples]| FPGA ```.bit``` image files of built blocks (not all blocks fit in a single image and had to be split) and associated GRC flowgraphs.
+|[examples]| USRP X310 HG ```.bit``` FPGA image files of built blocks (not all blocks fit in a single image and had to be split) and associated GRC flowgraphs.
 
 ### Build
 Assuming RFNoC has been setup ([Getting Started with RFNoC Development][kb] covers all steps needed to build anything RFNoC in general), here are some extra build pointers:
