@@ -2,6 +2,8 @@ title: The ATSC_RX OOT Module
 brief: RFNoC implementation of ATSC receiver blocks in GNU Radio
 tags: # Tags are arbitrary, but look at CGRAN what other authors are using
   - sdr
+  - rfnoc
+  - atsc
 author:
   Andrew Lanez <alanez@eng.ucsd.edu>
   Sachin Bharadwaj Sundramurthy <sabharad@eng.ucsd.edu>
