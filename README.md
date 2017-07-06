@@ -72,7 +72,7 @@ Install the files that were just copied:
 ```sh
 $ mkdir build
 $ cd build
-$ cmake
+$ cmake ..
 $ make
 $ sudo make install
 ```
