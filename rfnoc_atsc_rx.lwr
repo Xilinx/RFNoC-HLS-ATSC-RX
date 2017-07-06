@@ -20,7 +20,7 @@
 category: application
 depends:
 - gnuradio
-description: Integrated ATSC receiver for GNU Radio
+description: RFNoC-integrated ATSC receiver for GNU Radio
 gitbranch: master
 inherit: empty
 source: git+https://github.com/Xilinx/RFNoC-HLS-ATSC-RX.git
