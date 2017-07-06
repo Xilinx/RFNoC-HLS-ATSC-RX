@@ -26,15 +26,17 @@ All blocks above have these features:
 
 ### Directories
 Here are descriptions of the top-level directories.
+
 | Folder | Contents |
-| -------- | ------------- |
+| --- | --- |
 | [rfnoc]| RFNoC main source tree files needed to build all blocks that have been verified operational on hardware and in GNU Radio. The [src/rfnoc-atsc_rx] subfolder contains files needed for UHD and GNU Radio integration. The [src/uhd-fpga/usrp3] subfolder contains files needed for FPGA integration.
 |[hls_patch] | Patch from the RFNoC dev team for the image builder to detect various needed source files. May not be needed in current or future RFNoC releases.
 |[blocks\_in\_progress]| Nearly completed blocks either more optimized for throughput or have more features than their counterparts in the main source tree but need timing, interface, or hardware performance issues resolved.
 
 Noteworthy subdirectories:
+
 |Subfolder|Contents|
-| -------- | ------------- |
+| --- | --- |
 |[hls]| C++ source and testbench files for Vivado HLS.
 |[testbenches]| SystemVerilog HDL testbench directories.
 |[examples]| FPGA ```.bit``` image files of built blocks (not all blocks fit in a single image and had to be split) and associated GRC flowgraphs.
