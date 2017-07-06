@@ -34,7 +34,7 @@ int main(void)
         return 1;
     }
     printf("Starting\n");
-    for(int j=0; j<5; j++)
+    for(int j=0; j<100; j++)
     {
         fread(&in, sizeof(unsigned int), 64, file_r);
         for(int i = 0; i < 64; i++)

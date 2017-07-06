@@ -53,12 +53,14 @@ int DECODE_RS(
 
     /* form the syndromes; i.e., evaluate data(x) at roots of g(x) */
     for(i=0; (unsigned int)i<NROOTS; i++)
+	#pragma HLS PIPELINE
         s[i] = data[0];
 
     for(j=1; (unsigned int)j<NN; j++)
     {
         for(i=0; (unsigned int)i<NROOTS; i++)
         {
+		#pragma HLS PIPELINE
             if(s[i] == 0)
             {
                 s[i] = data[j];
@@ -74,6 +76,7 @@ int DECODE_RS(
     syn_error = 0;
     for(i=0; (unsigned int)i<NROOTS; i++)
     {
+	#pragma HLS PIPELINE
         syn_error |= s[i];
         s[i] = index_of_value[s[i]];
     }
@@ -87,6 +90,7 @@ int DECODE_RS(
         goto finish;
     }
     for(int mem_i=0;mem_i<NROOTS;mem_i++)
+	#pragma HLS PIPELINE
         lambda[1+mem_i]=0;
     lambda[0] = 1;
 
@@ -96,55 +100,19 @@ int DECODE_RS(
         lambda[1] = alpha_to_value[MODNN(PRIM*(NN-1-eras_pos[0]))];
         for (i = 1; i < no_eras; i++)
         {
+		#pragma HLS PIPELINE
             u = MODNN(PRIM*(NN-1-eras_pos[i]));
             for (j = i+1; j > 0; j--)
             {
+			#pragma HLS PIPELINE
                 tmp = index_of_value[lambda[j - 1]];
                 if(tmp != A0)
                     lambda[j] ^= alpha_to_value[MODNN(u + tmp)];
             }
         }
-
-#if DEBUG >= 1
-        /* Test code that verifies the erasure locator polynomial just constructed
-           Needed only for decoder debugging. */
-
-        /* find roots of the erasure location polynomial */
-        for(i=1; i<=no_eras; i++)
-            reg[i] = index_of_value[lambda[i]];
-
-        count = 0;
-        for (i = 1,k=IPRIM-1; i <= NN; i++,k = MODNN(k+IPRIM))
-        {
-            q = 1;
-            for (j = 1; j <= no_eras; j++)
-                if (reg[j] != A0)
-                {
-                    reg[j] = MODNN(reg[j] + j);
-                    q ^= alpha_to_value[reg[j]];
-                }
-            if (q != 0)
-                continue;
-            /* store root and error location number indices */
-            root[count] = i;
-            loc[count] = k;
-            count++;
-        }
-        if (count != no_eras)
-        {
-            printf("count = %d no_eras = %d\n lambda(x) is WRONG\n",count,no_eras);
-            count = -1;
-            goto finish;
-        }
-#if DEBUG >= 2
-        printf("\n Erasure positions as determined by roots of Eras Loc Poly:\n");
-        for (i = 0; i < count; i++)
-            printf("%d ", loc[i]);
-        printf("\n");
-#endif
-#endif
     }
     for(i=0; (unsigned int)i<NROOTS+1; i++)
+	#pragma HLS PIPELINE
         b[i] = index_of_value[lambda[i]];
 
     /*
@@ -158,6 +126,7 @@ int DECODE_RS(
         /* Compute discrepancy at the r-th step in poly-form */
         discr_r = 0;
         for (i = 0; i < r; i++)
+		#pragma HLS PIPELINE
         {
             if ((lambda[i] != 0) && (s[r-i-1] != A0))
             {
@@ -178,6 +147,7 @@ int DECODE_RS(
             t[0] = lambda[0];
             for (i = 0 ; (unsigned int)i < NROOTS; i++)
             {
+			#pragma HLS PIPELINE
                 if(b[i] != A0)
                     t[i+1] = lambda[i+1] ^ alpha_to_value[MODNN(discr_r + b[i])];
                 else
@@ -191,6 +161,7 @@ int DECODE_RS(
                  * lambda(x)
                  */
                 for (i = 0; (unsigned int)i <= NROOTS; i++)
+				#pragma HLS PIPELINE
                     b[i] = (lambda[i] == 0) ? A0 : MODNN(index_of_value[lambda[i]] - discr_r + NN);
             }
             else
@@ -201,6 +172,7 @@ int DECODE_RS(
                 b[0] = A0;
             }
             for(int mem_i=0;mem_i<(NROOTS+1);mem_i++)
+			#pragma HLS PIPELINE
                 lambda[mem_i]=t[mem_i];
         }
     }
@@ -209,6 +181,7 @@ int DECODE_RS(
     deg_lambda = 0;
     for(i=0; (unsigned int)i<NROOTS+1; i++)
     {
+	#pragma HLS PIPELINE
         lambda[i] = index_of_value[lambda[i]];
         if(lambda[i] != A0)
             deg_lambda = i;
@@ -222,6 +195,7 @@ int DECODE_RS(
         q = 1; /* lambda[0] is always 0 */
         for (j = deg_lambda; j > 0; j--)
         {
+		#pragma HLS PIPELINE II=8
             if (reg[j] != A0)
             {
                 reg[j] = MODNN(reg[j] + j);
@@ -261,6 +235,7 @@ int DECODE_RS(
         tmp = 0;
         j = (deg_lambda < i) ? deg_lambda : i;
         for(; j >= 0; j--)
+		#pragma HLS PIPELINE
         {
             if ((s[i - j] != A0) && (lambda[j] != A0))
                 tmp ^= alpha_to_value[MODNN(s[i - j] + lambda[j])];
@@ -280,6 +255,7 @@ int DECODE_RS(
         num1 = 0;
         for (i = deg_omega; i >= 0; i--)
         {
+		#pragma HLS PIPELINE
             if (omega[i] != A0)
                 num1  ^= alpha_to_value[MODNN(omega[i] + i * root[j])];
         }
@@ -289,6 +265,7 @@ int DECODE_RS(
         /* lambda[i+1] for i even is the formal derivative lambda_pr of lambda[i] */
         for (i = (int)min((unsigned int)deg_lambda,NROOTS-1) & ~1; i >= 0; i -=2)
         {
+		#pragma HLS PIPELINE
             if(lambda[i+1] != A0)
                 den ^= alpha_to_value[MODNN(lambda[i+1] + i * root[j])];
         }
@@ -310,6 +287,7 @@ finish:
     if(eras_pos != NULL)
     {
         for(i=0; i<count; i++)
+		#pragma HLS PIPELINE
             eras_pos[i] = loc[i];
     }
     return count;

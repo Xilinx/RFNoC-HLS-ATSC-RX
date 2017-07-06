@@ -26,6 +26,7 @@ struct rs {
 };
 
 static inline unsigned int modnn(struct rs *rs, unsigned int x){
+#pragma HLS PIPELINE
 	for(int i = 0; i < 4; i++) {
 		if(x >= 255)
 			x-=255;

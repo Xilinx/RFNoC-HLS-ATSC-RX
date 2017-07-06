@@ -68,10 +68,8 @@ int atsc_rs_decoder_impl::decode (atsc_mpeg_packet_no_sync &rs_out, const atsc_m
 
     // add missing prefix zero padding to message
     for(int i=0;i<amount_of_pad;i++)
-	#pragma HLS PIPELINE
         tmp[i]=0;
     for(int i=0;i<207;i++)
-	#pragma HLS PIPELINE
         tmp[amount_of_pad+i]=rs_in.data[i];
 
     // correct message...
@@ -79,7 +77,6 @@ int atsc_rs_decoder_impl::decode (atsc_mpeg_packet_no_sync &rs_out, const atsc_m
 
     // copy corrected message to output, skipping prefix zero padding
     for(int i=0;i<187;i++)
-	#pragma HLS PIPELINE
         rs_out.data[i]=tmp[amount_of_pad+i];
     return ncorrections;
 }
@@ -115,7 +112,9 @@ void atsc_rsdecoder_impl(axis_cplx_in in[64], axis_cplx_out out[64])
 	ap_uint<1> last_temp;
     static atsc_rs_decoder_impl rs;
 	atsc_mpeg_packet_no_sync rs_out;
+	#pragma HLS ARRAY_PARTITION variable=rs_out.data cyclic factor=2 dim=1
 	atsc_mpeg_packet_rs_encoded rs_in;
+	#pragma HLS ARRAY_PARTITION variable=rs_in.data cyclic factor=2 dim=1
 
     // Remove ap ctrl ports (ap_start, ap_ready, ap_idle, etc) since we only use the AXI-Stream ports
     #pragma HLS INTERFACE ap_ctrl_none port=return
@@ -124,8 +123,6 @@ void atsc_rsdecoder_impl(axis_cplx_in in[64], axis_cplx_out out[64])
     #pragma HLS INTERFACE axis register depth=64 port=out
     // Need to pack input into a 32-bit word
     // Otherwise, compiler complains that our AXI-Stream interfaces have two data fields (i.e. data.real, data.imag)
-//    #pragma HLS DATA_PACK variable=rs_in.data
-//    #pragma HLS DATA_PACK variable=rs_out.data
 
 	temp = in[0].data;
     last_temp = in[0].last;
