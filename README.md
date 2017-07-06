@@ -1,7 +1,7 @@
 # RFNoC-HLS-ATSC-RX
 
-Andrew Valenzuela Lanez | <andrew.lanez@navy.mil>  
-Sachin Bharadwaj Sundramurthy | <sbharad@eng.ucsd.edu>  
+Andrew Valenzuela Lanez | <andrew.lanez@navy.mil>
+Sachin Bharadwaj Sundramurthy | <sbharad@eng.ucsd.edu>
 Alireza Khodamoradi | <alirezak@eng.ucsd.edu>
 
 ### About
@@ -84,16 +84,6 @@ $ make
 $ sudo make install
 ```
 
-##### FPGA Integration
-The following files specify which blocks are to be built into the FPGA. They are already populated with specified blocks for reference and can be modified to build a different combination of blocks as desired. Specified blocks must match among all files.
-```sh
-{USER_PREFIX}/src/rfnoc-atsc_rx/rfnoc/Makefile.srcs
-{USER_PREFIX}/src/uhd-fpga/usrp3/lib/hls/Makefile.inc
-{USER_PREFIX}/src/uhd-fpga/usrp3/top/x300/Makefile.srcs
-{USER_PREFIX}/src/uhd-fpga/usrp3/top/x300/rfnoc_ce_auto_inst_x310.v
-```
-
-
 ##### HDL Testbench
 The RTL Export feature in Vivado HLS 2015.4 ([user guide][ug902]) can be used to first generate Verilog and Xilinx IP source files (```*.v```, ```*.dat``` and/or XCI folders) of a block. Paths to those files need to be assigned to the ```SIM_SRCS``` variable in the respective ```{USER_PREFIX}/src/rfnoc-atsc_rx/rfnoc/testbenches/noc_block_{NAME}_tb/Makefile``` of a block. Then run the testbench from the build directory:
 ```sh
@@ -102,6 +92,21 @@ $ make test_tb
 $ make noc_block_[NAME]_tb
 ```
 Note: ```make test_tb``` only needs to be run once for the ```atsc_rx``` OOT module, not per RFNoC block.
+
+##### FPGA Integration
+The following files specify which blocks are to be built into the FPGA. They are already populated with specified blocks for reference and can be modified to build a different combination of blocks as desired. Specified blocks must match among all files.
+```sh
+{USER_PREFIX}/src/rfnoc-atsc_rx/rfnoc/Makefile.srcs
+{USER_PREFIX}/src/uhd-fpga/usrp3/lib/hls/Makefile.inc
+{USER_PREFIX}/src/uhd-fpga/usrp3/top/x300/Makefile.srcs
+{USER_PREFIX}/src/uhd-fpga/usrp3/top/x300/rfnoc_ce_auto_inst_x310.v
+```
+The last file assumes the image is for a USRP X310. Modify the appropriate file respective the USRP being used. Then build the image:
+```sh
+$ cd {USER_PREFIX}/src/uhd-fpga/usrp3/top/x300
+$ make X310_RFNOC_HLS_HG
+```
+The last command assumes a USRP X310 and 1GigE Port0/10GigE Port1. Use a make command appropriate to the USRP and Ethernet port type being used. Use ```make cleanall``` if IP needs to be cleaned before a new build.
 
 
 
