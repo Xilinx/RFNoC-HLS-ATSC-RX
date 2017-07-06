@@ -1,7 +1,7 @@
 # RFNoC-HLS-ATSC-RX
 
-Andrew Valenzuela Lanez | <andrew.lanez@navy.mil>
-Sachin Bharadwaj Sundramurthy | <sbharad@eng.ucsd.edu>
+Andrew Valenzuela Lanez | <andrew.lanez@navy.mil>  
+Sachin Bharadwaj Sundramurthy | <sbharad@eng.ucsd.edu>  
 Alireza Khodamoradi | <alirezak@eng.ucsd.edu>
 
 ### About
