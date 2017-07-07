@@ -608,7 +608,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(376, 636)</value>
+      <value>(352, 636)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -659,7 +659,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 244)</value>
+      <value>(488, 180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -731,6 +731,61 @@
     <param>
       <key>repeat</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_throttle</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(488, 276)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_throttle_0</value>
+    </param>
+    <param>
+      <key>ignoretag</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>samples_per_second</key>
+      <value>sample_rate</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1323,6 +1378,12 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_throttle_0</source_block_id>
+    <sink_block_id>uhd_rfnoc_streamer_fifo_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>dtv_atsc_derandomizer_0</source_block_id>
     <sink_block_id>uhd_rfnoc_streamer_fifo_0_0</sink_block_id>
     <source_key>0</source_key>
@@ -1349,6 +1410,12 @@
   <connection>
     <source_block_id>uhd_rfnoc_streamer_ddc_0</source_block_id>
     <sink_block_id>blocks_file_sink_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>uhd_rfnoc_streamer_ddc_0</source_block_id>
+    <sink_block_id>blocks_throttle_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
