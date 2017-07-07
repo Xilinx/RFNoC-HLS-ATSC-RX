@@ -19,10 +19,12 @@ The ```atsc_rx``` module includes these blocks:
 - RFNoC: ATSC RX Filter-FPLL
 - RFNoC: DC Blocker-AGC
 
-All blocks above have these features:
+All blocks above were built with these integrated features:
 - Vivado HLS Source & Testbench
-- NoC Block & HDL Testbench
-- UHD, GNU Radio, & FPGA Integration
+- HDL Testbench
+- FPGA Integration
+- UHD Integration
+- GNU Radio Integration
 
 ### Directories
 Here are descriptions of the top-level directories:
