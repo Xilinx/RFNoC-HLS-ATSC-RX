@@ -5,7 +5,7 @@ Sachin Bharadwaj Sundramurthy | <sbharad@eng.ucsd.edu>
 Alireza Khodamoradi | <alirezak@eng.ucsd.edu>
 
 ### About
-This repo contains the ```atsc_rx``` RFNoC module for GNU Radio. Its blocks are to be implemented onto the FPGA of an RFNoC-suppported USRP (e.g., E310/E312 or X300/X310) using RFNoC and Xilinx Vivado Design Suite 2015.4. They can plug-and-play into the GNU Radio [gr-dtv] ATSC receiver example and process an ATSC signal into a playable video file.
+This repo contains the ```atsc_rx``` RFNoC module for GNU Radio. Its blocks are to be implemented onto the FPGA of an RFNoC-suppported USRP (e.g., E3xx series or X3xx series) using RFNoC and Xilinx Vivado Design Suite 2015.4. They can plug-and-play into the GNU Radio [gr-dtv] ATSC receiver example and process an ATSC signal into a playable video file.
 
 The ```atsc_rx``` module includes these blocks:
 - RFNoC: ATSC RX Filter
