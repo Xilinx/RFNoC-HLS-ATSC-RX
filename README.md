@@ -122,7 +122,7 @@ $ make X310_RFNOC_HLS_HG
 ```
 The last command assumes a USRP X310 and 1GigE Port0/10GigE Port1. Use a make command appropriate to the USRP and Ethernet port type being used. Use ```make cleanall``` if IP needs to be cleaned before a new build.
 
-## Implementation Notes
+## Design Considerations
 The decision on which blocks to port into RFNoC hinged on two factors:
  
 **Frontend proximity:** Porting frontend blocks from software into hardware increases deterministic processing before the datastream falls under the whim of an operating system scheduler. RX Filter, FPLL, DC Blocker, and AGC were selected.
@@ -145,7 +145,28 @@ Two key parameters in the ```gr-dtv``` implementation of the receiver that drive
 
 ![spectrum](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/spectrum.png?raw=true)
 
-Reasonable oversampling ratios were found to range between 1.1 to 2 for the ```gr-dtv``` ATSC receiver software implementation to accumulate enough data to output video for playback. For an initial pass at implementing on hardware, it was decided to define target sampling rates based on the oversampling ratio of 1.1 to make implementation less constrained. Then, time permitting, iterate from there by increasing target rates and fine tune sample rates to match between blocks. The following table shows current block output rates ("v2" blocks discussed later):
+Reasonable oversampling ratios were found to range between 1.1 to 2 for the ```gr-dtv``` ATSC receiver software implementation to accumulate enough data to output video for playback. For an initial pass at implementing on hardware, it was decided to define target sampling rates based on the oversampling ratio of 1.1 to make implementation less constrained. Then, time permitting, iterate from there by increasing target rates and fine tune sample rates to match between blocks.
+
+## Implementation Notes
+Workflow in the RFNoC framework is already well documented at [Getting Started with RFNoC Development][kb]. The following focuses on implementation using Vivado HLS 2015.4 shown in the top part of this high-level workflow followed by results:
+
+![workflow](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/workflow.png?raw=true)
+
+##### Developing HLS Source
+Signal processing source files were written in C++ to be synthesizable. Vivado HLS optimization directives such as ```#pragma HLS PIPELINE```, ```#pragma HLS UNROLL```, ```#pragma HLS RESOURCE```, and ```#pragma HLS ARRAY_PARTITION``` were used, among others. The tradeoff between optimizing to increase throughput versus optimizing to reduce utilization were kept in consideration. Synthesizability was checked using ```csynth_design``` (C Synthesis) and timing could be checked using ```export_design``` (RTL Export) with the Evaluate Verilog option enabled (though this last step can be time consuming and better left as a final step before FPGA integration in RFNoC).
+
+##### Developing HLS Testbench
+A testbench was written in C++ to send input data to the DUT and compare the output against a golden output using ```csim``` (C Simulation) in the C++ domain. The golden output was captured as a binary file using File Sink on the output of the counterpart or reference block in GNU Radio. Input was captured in a similar fashion with the original input source being a live ATSC signal fed from UHD: USRP Source as shown below. In the testbench, multiple function calls to the DUT per test run is encouraged to check the boundaries between returned output data sets and accumulate initiation interval statistics.
+
+![inout](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/inout.png?raw=true)
+
+If ```csim``` showed passing results and ```csynth_design``` showed the block to be synthesizable, then ```cosim``` (C/RTL Cosimulation) was run to translate the C++ code into RTL (Verilog, VHDL, and/or SystemC) and apply the testbench input stimuli and output checking in the RTL domain. To synthesize the input port of the RX Filter block, for example, into the AXI Stream interface used in RFNoC, the ```#pragma HLS INTERFACE axis depth=64 port=in``` was used on the top level function of the block. The ```depth``` parameter has no bearing on synthesis. Instead, it is a control parameter for the ```cosim``` testbench to know how to size its input FIFO so it matches the RX Filter input array size which does have bearing on synthesis.
+
+##### Iterating Between HLS and RFNoC
+After a block passed ```cosim``` and met timing in ```export_design``` with the Evaluate Verilog option enabled, it was ready to test against the RFNoC HDL testbench. The C++ source files fed into ```export_design``` got converted into Verilog and Xilinx XCI IP source files. Those output files were used as the DUT in the RFNoC HDL testbench. The binary input and golden output files used in HLS were converted to ASCII representations using MATLAB (Python would have worked as well) which were then used as input and golden output array variables in the SystemVerilog HDL testbench. If the DUT had bugs revealed by the HDL testbench or by running its FPGA implementation in GNU Radio, it was debugged in HLS or HDL testbench, re-packaged with ```export_design```, then retested. This process was repeated until the RFNoC block implementation functioned as desired in GNU Radio.
+
+##### Results
+The following table shows current block output rates ("v2" blocks discussed later):
 
 ![rates](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/rates.png?raw=true)
 
@@ -169,7 +190,7 @@ As mentioned earlier, target sample rates were not met so there is room for impr
 Current implementations and more details on these items are in [blocks\_in\_progress].
 
 ## Conclusion
-It was realized partway through the project that real time playback was ambitious based on initiation interval estimates reported by Vivado HLS. Although real time playback was not achieved in this iteration of development, HLS optimizations made it possible for several blocks to meet their respective targets and for all blocks to process data into playable video.
+It was realized partway through the project that real time playback was an ambitious stretch goal based on initiation interval estimates reported by Vivado HLS. Although real time playback was not achieved in this iteration of development, HLS optimizations made it possible for several blocks to meet their respective targets and for all blocks to process data into playable video.
  
 [grdtv]: <https://github.com/gnuradio/gnuradio/tree/master/gr-dtv/examples>
 
