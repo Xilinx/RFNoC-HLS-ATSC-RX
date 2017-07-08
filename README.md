@@ -180,17 +180,20 @@ A small oddity was found while testing the RFNoC: ATSC Receiver FPLL block in GN
 
 ## In Progress
 ##### Settings Bus
-Provisions for the settings register bus were implemented in HLS source, HLS testbench, NoC block, HDL testbench, and GNU Radio and UHD integration. It was questionable whether the settings bus ports were getting synthesized correctly from HLS source files. Documentation for synthesizing the settings bus signals from Vivado HLS could not be found. The ```#pragma HLS INTERFACE ap_stable``` and ```#pragma HLS INTERFACE ap_none``` directives were experimented with to attempt synthesis of the ```set_addr```, ```set_data```, and ```set_stb``` settings bus ports from HLS source files. They are data port interface directives, however, they have no associated I/O protocol. Regardless, an FPGA image was made and tested in GNU Radio and the settings bus did not function as desired. Values were not observed to be propagating to the settings registers in Vivado Simulator:
+Settings bus implementation is required to make parameters such as the oversampling ratio in RX Filter or delay line length in DC Blocker programmable. Provisions for the settings register bus were implemented in HLS source, HLS testbench, NoC block, HDL testbench, and GNU Radio and UHD integration. It was questionable whether the settings bus ports were getting synthesized correctly from HLS source files. Documentation for synthesizing the settings bus signals from Vivado HLS could not be found. The ```#pragma HLS INTERFACE ap_stable``` and ```#pragma HLS INTERFACE ap_none``` directives were experimented with to attempt synthesis of the ```set_addr```, ```set_data```, and ```set_stb``` settings bus ports from HLS source files. They are data port interface directives, however, they have no associated I/O protocol. Regardless, an FPGA image was made and tested in GNU Radio and the settings bus did not function as desired. Values were not observed to be propagating to the settings registers in Vivado Simulator:
 
 ![xsim](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/xsim.png?raw=true)
 
 ##### Higher Throughput
 As mentioned earlier, target sample rates were not met so there is room for improvement. A "v2" of some blocks being worked on are more highly optimized but not in a state to run on hardware.
 
-Current implementations and more details on these items are in [blocks\_in\_progress].
+Current implementations and more details on the blocks discussed above are in [blocks\_in\_progress].
+
+##### More Blocks
+The X310 10 CE limit was reached. Though there are tricks around this (such as what was accomplished by combining blocks at the HLS level) it would be nice if future iterations of RFNoC can support more CEs in a single X310 FPGA image. Then the entire ATSC receiver can be ported into RFNoC! With less hardware-to-software FIFOs, real time playback (the ultimate goal of this concept) would be in closer reach.
 
 ## Conclusion
-It was realized partway through the project that real time playback was an ambitious stretch goal based on initiation interval estimates reported by Vivado HLS. Although real time playback was not achieved in this iteration of development, HLS optimizations made it possible for several blocks to meet their respective targets and for all blocks to process data into playable video.
+It was realized partway through the project that real time playback was an ambitious stretch goal. Although real time playback was not achieved in this iteration of development, HLS optimizations made it possible for several blocks to meet their respective targets and for all blocks to process data into playable video.
  
 [grdtv]: <https://github.com/gnuradio/gnuradio/tree/master/gr-dtv/examples>
 
