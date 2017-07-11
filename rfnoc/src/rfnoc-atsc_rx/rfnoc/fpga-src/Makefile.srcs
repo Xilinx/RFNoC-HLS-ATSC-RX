@@ -2,7 +2,7 @@ $(addprefix SOURCES_PATH, \
 noc_block_rsdec.v \
 noc_block_viterbi.v \
 noc_block_deint.v \
-noc_block_fltpll.v \
-noc_block_depad.v \
+noc_block_rxfilt.v \
+noc_block_fpll.v \
 noc_block_dcragc.v \
 ) \

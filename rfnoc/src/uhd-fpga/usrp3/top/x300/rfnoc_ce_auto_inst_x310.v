@@ -27,7 +27,7 @@ noc_block_ddc inst_ddc (
   .debug(ce_debug[0])
 );
 
-noc_block_fltpll inst_fltpll (
+noc_block_rxfilt inst_rxfilt (
   .bus_clk(bus_clk), .bus_rst(bus_rst),
   .ce_clk(ce_clk), .ce_rst(ce_rst),
   .i_tdata(ce_o_tdata[1]), .i_tlast(ce_o_tlast[1]), .i_tvalid(ce_o_tvalid[1]), .i_tready(ce_o_tready[1]),
@@ -35,7 +35,7 @@ noc_block_fltpll inst_fltpll (
   .debug(ce_debug[1])
 );
 
-noc_block_depad inst_depad (
+noc_block_fpll inst_fpll (
   .bus_clk(bus_clk), .bus_rst(bus_rst),
   .ce_clk(ce_clk), .ce_rst(ce_rst),
   .i_tdata(ce_o_tdata[2]), .i_tlast(ce_o_tlast[2]), .i_tvalid(ce_o_tvalid[2]), .i_tready(ce_o_tready[2]),

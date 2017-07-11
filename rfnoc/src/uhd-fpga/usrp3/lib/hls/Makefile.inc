@@ -4,8 +4,8 @@
 include $(TOOLS_DIR)/make/viv_hls_ip_builder.mak
 
 # Add HLS IP to build
-include $(HLS_IP_DIR)/atsc_rx_filter_fpll/Makefile.inc
-include $(HLS_IP_DIR)/atsc_depad_impl/Makefile.inc
+include $(HLS_IP_DIR)/atsc_rx_filter/Makefile.inc
+include $(HLS_IP_DIR)/atsc_fpll/Makefile.inc
 include $(HLS_IP_DIR)/dc_blocker_agc/Makefile.inc
 include $(HLS_IP_DIR)/atsc_viterbi_impl/Makefile.inc
 include $(HLS_IP_DIR)/atsc_deinterleaver_impl/Makefile.inc

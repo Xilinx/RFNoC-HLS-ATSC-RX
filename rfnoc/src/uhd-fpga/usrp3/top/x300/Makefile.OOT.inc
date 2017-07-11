@@ -1,0 +1,12 @@
+##################################################
+# Include OOT makefiles
+##################################################
+RFNOC_OOT_SRCS = \
+$(addprefix /home/switchlanez/rfnoc/src/rfnoc-atsc_rx/rfnoc/fpga-src/, \
+noc_block_rxfilt.v \
+noc_block_fpll.v \
+noc_block_dcragc.v \
+noc_block_viterbi.v \
+noc_block_deint.v \
+noc_block_rsdec.v \
+) \

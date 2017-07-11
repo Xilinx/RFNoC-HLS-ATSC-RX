@@ -7,13 +7,9 @@ Alireza Khodamoradi | <alirezak@eng.ucsd.edu>
 ### About
 This repo contains the RFNoC ```atsc_rx``` OOT module for GNU Radio. Its blocks are to be implemented onto the FPGA of an RFNoC-suppported USRP (e.g., E3xx series or X3xx series) using RFNoC and Xilinx Vivado Design Suite 2015.4. They can plug-and-play into the GNU Radio [gr-dtv][grdtv] ATSC receiver example and process an ATSC signal into a playable video file. Real time playback of a live ATSC signal processed through the ```gr-dtv``` ATSC receiver is possible on high-performance computers but not on most commodity computers. This makes ATSC receiver blocks ideal candidates for porting into RFNoC. Computation intensive tasks can be offloaded to FPGA logic while applying high-level synthesis optimization techniques to improve receiver throughput. This can bring GNU Radio ever closer to achieving real time ATSC playback on a typical commodity computer.
 
-```atsc_rx``` RFNoC blocks in Example 1 flowgraph:
+Example flowgraph with ```atsc_rx``` RFNoC blocks:
 
 ![ex1](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/ex1.png?raw=true)
-
-Example 2:
-
-![ex2](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/ex2.png?raw=true)
 
 Screenshot of video from a live ATSC signal processed through ```atsc_rx``` RFNoC blocks:
 
@@ -53,7 +49,7 @@ Noteworthy subdirectories:
 | --- | --- |
 |[hls]| C++ source and testbench files for Vivado HLS.
 |[testbenches]| SystemVerilog HDL testbench directories.
-|[examples]| USRP X310 HG ```.bit``` FPGA image files of built blocks (not all blocks fit in a single image and had to be split) and associated GRC flowgraphs.
+|[examples]| USRP X310 HG ```.bit``` FPGA image file of some blocks (not all blocks fit in a single image due to CE count, not area utilization) and associated GRC flowgraph.
 
 ## Build
 Assuming RFNoC has been setup ([Getting Started with RFNoC Development][kb] covers all steps needed to build anything RFNoC in general), here are some extra build pointers:
@@ -137,7 +133,7 @@ Deinterleaver, Derandomizer, and Depad were eventually targeted due to their sim
 
 ![gr-dtv](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/gr-dtv.png?raw=true)
 
-The following flowgraph shows 6 of 10 blocks implemented in RFNoC. RX Filter was combined with FPLL and DC Blocker was combined with AGC at the HLS source level so that more CEs (Computation Engines) could fit in one FPGA image. Throttle compensates for a rate mismatch (an action item for future iterations and discussed later).
+The following flowgraph shows 6 of 10 blocks implemented in RFNoC. RX Filter was combined with FPLL and DC Blocker was combined with AGC at the HLS source level so that more CEs (Computation Engines) could fit in one FPGA image (combined area utilization of all blocks was not an issue). Throttle compensates for a rate mismatch (an action item for future iterations and discussed later).
 
 ![grc](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/grc.png?raw=true)
 
@@ -170,7 +166,7 @@ The following table shows current block output rates ("v2" blocks discussed late
 
 ![rates](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/rates.png?raw=true)
 
-RFNoC block utilization area reported by Vivado HLS C Synthesis in terms of units and percentage of block versions verified to function on hardware (none are "v2"):
+RFNoC block utilization area reported by Vivado HLS C Synthesis in terms of units and percentage of block versions verified to function on hardware (none of these are "v2" blocks):
 
 ![area](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/area.png?raw=true)
 
@@ -185,7 +181,7 @@ Settings bus implementation is required to make parameters such as the oversampl
 ![xsim](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/xsim.png?raw=true)
 
 ##### Higher Throughput
-As mentioned earlier, target sample rates were not met so there is room for improvement. A "v2" of some blocks being worked on are more highly optimized but not in a state to run on hardware.
+As mentioned earlier, target sample rates were not met so there is room for improvement. A "v2" of the RX Filter, DC Blocker, and AGC blocks being worked on are more highly optimized but fail timing and are not in a state to run on hardware. Reed-Solomon v2 passed all HLS timing and utilization checks but did not work on hardware when instantiated with RX Filter, FPLL (or RX Filter-FPLL), DC Blocker, AGC (or DC Blocker-AGC), Viterbi, and Deinterleaver. A critical warning on timing could potentially (and randomly) occur but Reed-Solomon v2 has also shown to not work with no critical warnings reported with all those blocks instantiated. It seems that when more CEs are instantiated, there is a higher chance of critical warnings on timing and/or CEs not working when they otherwise would if less CEs were instantiated. However, Reed-Solomon v2 has been verified to work on hardware when it was the only CE instantiated along with a DDC and 8 FIFOs filled in the image.
 
 Current implementations and more details on the blocks discussed above are in [blocks\_in\_progress].
 
@@ -194,7 +190,9 @@ The X310 10 CE limit was reached. Though there are tricks around this (such as w
 
 ## Conclusion
 It was realized partway through the project that real time playback was an ambitious stretch goal. Although real time playback was not achieved in this iteration of development, HLS optimizations made it possible for several blocks to meet their respective targets and for all blocks to process data into playable video.
- 
+
+**Tip:** As mentioned earlier, instantiating many CEs increases the chance of critical warnings on timing or erratic behavior (even without any critical warnings). When testing all blocks, it would be better to evenly distribute CE instances among 2 or 3 images (3 or 4 CEs per image) instead of maximizing the number of CE instances per image.
+
 [grdtv]: <https://github.com/gnuradio/gnuradio/tree/master/gr-dtv/examples>
 
 [rfnoc]: <https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/tree/master/rfnoc>
