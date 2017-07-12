@@ -189,6 +189,9 @@ Current implementations and more details on the blocks discussed above are in [b
 The X310 10 CE limit was reached. Though there are tricks around this (such as what was accomplished by combining blocks at the HLS level) it would be nice if future iterations of RFNoC can support more CEs in a single X310 FPGA image. Then the entire ATSC receiver can be ported into RFNoC! With less hardware-to-software FIFOs, real time playback (the ultimate goal of this concept) would be in closer reach.
 
 ## Conclusion
+
+A shotgun approach to this project was used by selecting many blocks to port into RFNoC with hopes of hitting the bullseye. With Viterbi being the largest resource consumer and bottleneck and its RFNoC implementation working and meeting the target throughput, it can be considered that a bullseye was hit. Multiple other blocks struck right around the mark. Simpler blocks such as Deinterleaver and Depad far surpassed target sample rates and only came about to be developed during times when little to no progress could be made on more challenging blocks such as RX Filter, DC Blocker, RS Decoder, and Viterbi. This approach may have been inefficient at times with efforts being spread thin across many blocks. It is uncertain whether a more focused, sniper approach on fewer blocks would have yielded better results.
+
 It was realized partway through the project that real time playback was an ambitious stretch goal. Although real time playback was not achieved in this iteration of development, HLS optimizations made it possible for several blocks to meet their respective targets and for all blocks to process data into playable video.
 
 **Tip:** Instantiating many CEs increases the chance of critical warnings on timing or erratic behavior. When testing all blocks, it would be better to evenly distribute CE instances among 2 or 3 images (3 or 4 CEs per image) instead of maximizing the number of CE instances per image.
