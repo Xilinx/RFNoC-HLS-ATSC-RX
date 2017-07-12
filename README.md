@@ -108,7 +108,7 @@ Note: Running Vivado HLS > RTL Export > Evaluate > Verilog can save time by pred
 ```sh
 {USER_PREFIX}/src/rfnoc-atsc_rx/rfnoc/Makefile.srcs
 {USER_PREFIX}/src/uhd-fpga/usrp3/lib/hls/Makefile.inc
-{USER_PREFIX}/src/uhd-fpga/usrp3/top/x300/Makefile.srcs
+{USER_PREFIX}/src/uhd-fpga/usrp3/top/x300/Makefile.srcs (or Makefile.OOT.inc in newer RFNoC releases)
 {USER_PREFIX}/src/uhd-fpga/usrp3/top/x300/rfnoc_ce_auto_inst_x310.v
 ```
 The last file assumes the image is for a USRP X310. Modify the appropriate file respective the USRP being used. Then build the image:
@@ -181,7 +181,7 @@ Settings bus implementation is required to make parameters such as the oversampl
 ![xsim](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/xsim.png?raw=true)
 
 ##### Higher Throughput
-As mentioned earlier, target sample rates were not met so there is room for improvement. A "v2" of the RX Filter, DC Blocker, and AGC blocks being worked on are more highly optimized but fail timing and are not in a state to run on hardware. Reed-Solomon v2 passed all HLS timing and utilization checks but did not work on hardware when instantiated with RX Filter, FPLL (or RX Filter-FPLL), DC Blocker, AGC (or DC Blocker-AGC), Viterbi, and Deinterleaver. A critical warning on timing could potentially (and randomly) occur but Reed-Solomon v2 has also shown to not work with no critical warnings reported with all those blocks instantiated. It seems that when more CEs are instantiated, there is a higher chance of critical warnings on timing and/or CEs not working when they otherwise would if less CEs were instantiated. However, Reed-Solomon v2 has been verified to work on hardware when it was the only CE instantiated along with a DDC and 8 FIFOs filled in the image.
+As mentioned earlier, target sample rates were not met so there is room for improvement. A "v2" of the RX Filter, DC Blocker, and AGC blocks being worked on are more highly optimized but fail timing so they are not in a state to run on hardware. Reed-Solomon v2 passed all HLS timing and utilization checks but functioned erratically on hardware even when no critical warnings were reported from the build.
 
 Current implementations and more details on the blocks discussed above are in [blocks\_in\_progress].
 
@@ -191,7 +191,7 @@ The X310 10 CE limit was reached. Though there are tricks around this (such as w
 ## Conclusion
 It was realized partway through the project that real time playback was an ambitious stretch goal. Although real time playback was not achieved in this iteration of development, HLS optimizations made it possible for several blocks to meet their respective targets and for all blocks to process data into playable video.
 
-**Tip:** As mentioned earlier, instantiating many CEs increases the chance of critical warnings on timing or erratic behavior (even without any critical warnings). When testing all blocks, it would be better to evenly distribute CE instances among 2 or 3 images (3 or 4 CEs per image) instead of maximizing the number of CE instances per image.
+**Tip:** Instantiating many CEs increases the chance of critical warnings on timing or erratic behavior. When testing all blocks, it would be better to evenly distribute CE instances among 2 or 3 images (3 or 4 CEs per image) instead of maximizing the number of CE instances per image.
 
 [grdtv]: <https://github.com/gnuradio/gnuradio/tree/master/gr-dtv/examples>
 
