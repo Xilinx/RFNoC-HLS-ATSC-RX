@@ -129,7 +129,7 @@ The decision on which blocks to port into RFNoC hinged on two factors:
 
 ![gr-buffers](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/gr_buffers.png?raw=true)
 
-Deinterleaver, Derandomizer, and Depad were eventually targeted due to their simplicity or for the sake of completeness around the FEC (forward error correction) blocks. All targeted blocks from the gr-dtv library are boxed out in red:
+Deinterleaver and Depad were eventually targeted due to their simplicity or for the sake of completeness around the FEC (forward error correction) blocks. All targeted blocks from the gr-dtv library are boxed out in red:
 
 ![gr-dtv](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/gr-dtv.png?raw=true)
 
