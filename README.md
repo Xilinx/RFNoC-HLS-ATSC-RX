@@ -121,7 +121,7 @@ The last command assumes a USRP X310 and 1GigE Port0/10GigE Port1. Use a make co
 ## Design Considerations
 The decision on which blocks to port into RFNoC hinged on two factors:
  
-**Frontend proximity:** Porting frontend blocks from software into hardware increases deterministic processing before the datastream falls under the whim of an operating system scheduler. RX Filter, FPLL, DC Blocker, and AGC were selected.
+**Frontend proximity:** Porting frontend blocks from software into hardware increases deterministic processing before the datastream falls under the whim of an operating system scheduler. RX Filter, FPLL, DC Blocker, and AGC were selected. RX Filter minimizes unwanted ISI (intersymbol interference) then oversamples and interpolates the signal, FPLL (frequency and phase locked loop) is used for carrier acquisition, DC Blocker removes unwanted DC components, and AGC (automatic gain control) adjusts amplitudes to a reference value within a desired range.
 
 **Bottlenecks:** Blocks that have higher consumption of runtime resources or cause buffers to fill are ideal candidates for porting. ControlPort Performance Monitor shows runtime consumption is primarily from Viterbi Decoder and secondarily from Reed-Solomon Decoder and top buffer consumption is from RX Filter:
 
@@ -129,9 +129,12 @@ The decision on which blocks to port into RFNoC hinged on two factors:
 
 ![gr-buffers](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/gr_buffers.png?raw=true)
 
-Deinterleaver and Depad were eventually targeted due to their simplicity or for the sake of completeness around the FEC (forward error correction) blocks. All targeted blocks from the gr-dtv library are boxed out in red:
+Deinterleaver was selected to close the link between the Viterbi (or trellis) and Reed-Solomon decoders. Those blocks undo forward error correction encoded by the transmitter. Depad was targeted for its simplicity and to be tried as the first block to complete the RFNoC workflow. It strips extraneous bytes leaving an MPEG video file as the final output. All targeted blocks from the gr-dtv library are boxed out in red:
 
 ![gr-dtv](https://github.com/Xilinx/RFNoC-HLS-ATSC-RX/blob/master/figures/gr-dtv.png?raw=true)
+
+
+
 
 The following flowgraph shows 6 of 10 blocks implemented in RFNoC. RX Filter was combined with FPLL and DC Blocker was combined with AGC at the HLS source level so that more CEs (Computation Engines) could fit in one FPGA image (combined area utilization of all blocks was not an issue). Throttle compensates for a rate mismatch (an action item for future iterations and discussed later).
 
